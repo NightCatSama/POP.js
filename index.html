@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="ch">
+<head>
+	<meta charset="UTF-8">
+	<title>Task-37</title>
+	<link rel="stylesheet" href="css/POP.css">
+	<style>
+		html {
+			font-family: '微软雅黑';
+		}
+		.btn-group {
+			padding: 10px;
+		}
+		.btn-group button {
+			padding: 5px 10px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+<div class="btn-group">
+	<label>alert():</label>
+	<button onclick="popAlert1()"> 默认Alert </button>
+</div>
+<div class="btn-group">
+	<label>alert():</label>
+	<button onclick="popAlert2('success')"> 成功alert </button>
+</div>
+<div class="btn-group">
+	<label>alert():</label>
+	<button onclick="popAlert3('warning')"> 警告alert </button>
+</div>
+<div class="btn-group">
+	<label>alert():</label>
+	<button onclick="popAlert4('error')"> 失败alert </button>
+</div>
+<div class="btn-group">
+	<label>alert():</label>
+	<button onclick="popAlert5('defaults','自定义标题One')"> 自定义标题One~ alert </button>
+</div>
+<div class="btn-group">
+	<label>alert():</label>
+	<button onclick="popAlert5('success','自定义标题Two')"> 自定义标题Two~alert </button>
+</div>
+<div class="btn-group">
+	<label>alert():</label>
+	<button onclick="popAlert6()"> 回调函数1 </button>
+</div>
+<div class="btn-group">
+	<label>alert():</label>
+	<button onclick="popAlert7()"> 回调函数2 </button>
+</div>
+
+
+<div class="btn-group">
+	<label>confirm():</label>
+	<button onclick="popConfirm('error')"> 确认返回true/ 取消返回false </button>
+</div>
+<div class="btn-group">
+	<label>prompt():</label>
+	<button onclick="popPrompt()"> 返回输入内容 </button>
+</div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<script src="js/POP.js"></script>
+<script>
+    /**********插件方法DEMO*********/
+
+	function popAlert1(type){
+		POP.alert("默认alert");
+	}
+	function popAlert2(type){
+		POP.alert("成功alert",type);
+	}
+	function popAlert3(type){
+		POP.alert("警告alert",type);
+	}
+	function popAlert4(type){
+		POP.alert("失败alert",type);
+	}
+	function popAlert5(type,msg){
+		POP.alert("自定义alert",{
+			type: type,
+			title: msg
+		});
+	}
+	function popAlert6(){
+		POP.alert("系统alert回调",function(){alert("yes")});
+	}
+	function popAlert7(){
+		POP.alert("插件alert回调",function(){POP.alert("yes")});
+	}
+	function popConfirm(){
+		var boolean = POP.confirm("确认关闭吗",function(boolean){
+			if(boolean){
+				return POP.alert(boolean,"success");
+			}
+			else {
+				return POP.alert(boolean,"error");
+			}
+		});
+	}
+	function popPrompt(){
+		var number = POP.prompt("输入你的手机号",function(value){
+			var reg = /^(13[0-9]|15[0|1|3|6|7|8|9]|18[8|9])\d{8}$/;   //匹配手机号码
+			if(!reg.test(value)){
+				return POP.alert("不合法的手机号","warning");
+			}
+			return POP.alert("验证通过，您的手机号为" + value,"success");
+		});
+	}
+</script>
+</body>
+</html>
