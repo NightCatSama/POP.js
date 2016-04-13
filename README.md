@@ -1,7 +1,7 @@
 # POP.js
 基于原生JS的弹出窗插件(Based on the native JS plug-in Pop-up Layer)
 
-[DEMO](http://121.42.196.46/task/task-37/)
+[DEMO](http://nightcatsama.github.io/POP.js/)
 
 ###HTML
 ```html
