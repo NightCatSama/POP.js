@@ -1,14 +1,14 @@
-# POP.js
+﻿# POP.js
 基于原生JS的弹出窗插件(Based on the native JS plug-in Pop-up Layer)
 
 [DEMO](http://nightcatsama.github.io/POP.js/)
 
 ###HTML
 ```html
-  <link rel="stylesheet" href="POP.css">
+  <link rel="stylesheet" href="pop-up-layer.css">
   ...
   
-  <script src="POP.js"></script>
+  <script src="pop-up-layer.js"></script>
 ```
 
 ###Method
