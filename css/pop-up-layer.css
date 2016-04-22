@@ -18,44 +18,60 @@
 	position: relative;
 	top: 50%;
 	left: 50%;
-	-webkit-transform: translate(-50%,-50%);
-	        transform: translate(-50%,-50%);
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
 	z-index: 10000;
 	border-radius: 8px;
-	border:1px solid rgba(0, 0, 0, 0.2);
+	border: 1px solid rgba(0, 0, 0, 0.2);
 	box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.6);
 	font-family: "微软雅黑";
 	margin-top: 0;
 	opacity: 1;
-	transition: margin-top .3s,opacity .3s;
+	background-color: #B3B3B3;
+	transition: margin-top .3s, opacity .3s;
 }
 .POP-wrap.POP-on .POP-model {
 	margin-top: 20px;
 	opacity: 0;
+}
+
+/* ********** Success 样式 *********** */
+.POP-wrap .POP-model.POP-success {
+	background-color: #5CB85C;
+}
+
+/* ********** Warning 样式 *********** */
+.POP-wrap .POP-model.POP-warning {
+	background-color: #F1C40F;
+}
+
+/* ********** Error 样式 *********** */
+.POP-wrap .POP-model.POP-error {
+	background-color: #E74C3C;
 }
 .POP-wrap .POP-model .POP-title {
 	height: 40px;
 	width: 100%;
 	box-sizing: border-box;
 	padding: 10px;
-    word-break: break-all;
-    color: #FFF;
-    font-weight: bold;
-    cursor: move;
-    -webkit-user-select:none;
-       -moz-user-select:none;
-        -ms-user-select:none;
-            user-select:none;
-    border-radius: 8px 8px 0 0;
+	word-break: break-all;
+	color: #FFF;
+	font-weight: bold;
+	cursor: move;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border-radius: 8px 8px 0 0;
 }
 .POP-wrap .POP-model .POP-content {
 	width: 100%;
 	min-height: 100px;
 	box-sizing: border-box;
 	padding: 10px;
-    word-break: break-all;
-    color:#34495E;
-    font-size: 18px;
+	word-break: break-all;
+	color: #34495E;
+	font-size: 18px;
 	background-color: #FAFAFA;
 }
 .POP-model .POP-content input {
@@ -68,32 +84,32 @@
 	width: 100%;
 	box-sizing: border-box;
 	padding: 5px;
-    word-break: break-all;
-    border-radius: 0 0 8px 8px;
+	word-break: break-all;
+	border-radius: 0 0 8px 8px;
 }
 .POP-footer button {
 	height: 36px;
 	padding: 0 12px;
 	margin-right: 5px;
-	border:none;
+	border: none;
 	border-radius: 5px;
 	cursor: pointer;
-	float:right;
+	float: right;
 	font-family: "微软雅黑";
 }
 .POP-footer button.POP-confirm {
 	background-color: #FFF;
-	color:#333;
+	color: #333;
 }
 .POP-footer button.POP-confirm:hover {
 	background-color: #EAEAEA;
-	color:#000;
+	color: #000;
 }
 .POP-footer button.POP-close {
 	background-color: #CCC;
-	color:#666;
+	color: #666;
 }
 .POP-footer button.POP-close:hover {
 	background-color: #bbb;
-	color:#777;
+	color: #777;
 }
