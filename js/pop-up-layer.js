@@ -38,6 +38,7 @@
 			that.title.addEventListener('mousedown', that.onDrag.bind(that));
 			that.title.addEventListener('mouseup', that.onDrop.bind(that));
 			that.wrap.addEventListener('mousemove', that.onMove.bind(that));
+			d.addEventListener('mouseout', that.onMove.bind(that));
 
 			//遮罩层绑定事件
 			that.fade.addEventListener('click', that.onFade.bind(that));
@@ -115,6 +116,8 @@
 			this.title.removeEventListener('mousedown', that.onDrag, false);
 			this.title.removeEventListener('mouseup', that.onDrop, false);
 			this.wrap.removeEventListener('mousemove', that.onMove, false);
+			d.removeEventListener('mouseout', that.onMove, false);
+
 			w.removeEventListener("keydown", that.onClose , false);
 			this.closeBtn.removeEventListener("click", that.onClose, false);
 			this.confirmBtn.removeEventListener("click", that.onClose, false);
