@@ -38,7 +38,7 @@
 			that.title.addEventListener('mousedown', that.onDrag.bind(that));
 			that.title.addEventListener('mouseup', that.onDrop.bind(that));
 			that.wrap.addEventListener('mousemove', that.onMove.bind(that));
-			d.addEventListener('mouseout', that.onMove.bind(that));
+			d.addEventListener('mouseout', that.onDrop.bind(that));
 
 			//遮罩层绑定事件
 			that.fade.addEventListener('click', that.onFade.bind(that));
