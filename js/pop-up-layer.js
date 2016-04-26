@@ -1,5 +1,5 @@
 ;(function(w, d, undefined) {
-	var unique,fadeFn,wFn,mFn,dragFn,drogFn,btn1Fn,btn2Fn;
+	var unique;
 
 	var Layer = function(txt, config) {
 		this.txt = txt;
@@ -13,61 +13,38 @@
 		//初始化弹窗
 		init: function() {
 			var that = this;
-			this.wrap = d.createElement('DIV'),
-			this.fade = d.createElement('DIV'),
-			this.model = d.createElement('DIV'),
-			this.title = d.createElement('DIV'),
-			this.content = d.createElement('DIV')
-			this.footer = d.createElement('DIV'),
-			this.confirmBtn = d.createElement("BUTTON"),
-			this.closeBtn = d.createElement("BUTTON");
+			['wrap','fade','model','title','content','footer'].map(function(name){
+				that[name] = d.createElement('DIV');
+				that[name].className = 'POP-' + name;
+			})
 
-			this.wrap.className = 'POP-wrap POP-on';
-			this.fade.className = 'POP-fade';
-			this.model.className = 'POP-model';
-			this.title.className = 'POP-title';
-			this.footer.className = 'POP-footer';
-			this.content.className = 'POP-content';
-			this.confirmBtn.className = 'POP-confirm';
-			this.confirmBtn.innerHTML = '确认';
-			this.closeBtn.className = 'POP-close';
-			this.closeBtn.innerHTML = '取消';
-			this.model.appendChild(this.title);
-			this.model.appendChild(this.content);
-			this.model.appendChild(this.footer);
-			this.footer.appendChild(this.closeBtn);
-			this.footer.appendChild(this.confirmBtn);
-			this.wrap.appendChild(this.fade);
-			this.wrap.appendChild(this.model);
+			that.wrap.className = 'POP-wrap POP-on';
+			that.confirmBtn = d.createElement("BUTTON"),
+			that.closeBtn = d.createElement("BUTTON");
+
+			that.confirmBtn.className = 'POP-confirm';
+			that.confirmBtn.innerHTML = '确认';
+			that.closeBtn.className = 'POP-close';
+			that.closeBtn.innerHTML = '取消';
+			that.model.appendChild(that.title);
+			that.model.appendChild(that.content);
+			that.model.appendChild(that.footer);
+			that.footer.appendChild(that.closeBtn);
+			that.footer.appendChild(that.confirmBtn);
+			that.wrap.appendChild(that.fade);
+			that.wrap.appendChild(that.model);
 
 			//窗口可拖拽
-			this.title.addEventListener('mousedown', dragFn = function(event){
-				that.dragFlag = true;
-				that.startX = event.pageX;
-				that.startY = event.pageY;
-				that.left = parseInt(w.getComputedStyle(that.model , null)['left']);
-				that.top = parseInt(w.getComputedStyle(that.model , null)['top']);
-			});
-			this.title.addEventListener('mouseup', drogFn = function(){ that.dragFlag = false; });
-			this.wrap.addEventListener('mousemove', mFn = function(event){ that.onDrag(event, that); })
+			that.title.addEventListener('mousedown', that.onDrag.bind(that));
+			that.title.addEventListener('mouseup', that.onDrop.bind(that));
+			that.wrap.addEventListener('mousemove', that.onMove.bind(that));
 
 			//遮罩层绑定事件
-			this.fade.addEventListener('click', fadeFn = function(){that.close(that,undefined,true)});
+			that.fade.addEventListener('click', that.onFade.bind(that));
 
 			//键盘绑定事件
-			w.addEventListener('keydown', wFn = function(event){
-				var code = event.keyCode;
-				if(code === 27){
-					event.preventDefault();
-					that.close(that,undefined,true);
-				}
-				else if(code === 13){
-					event.preventDefault();
-					var zzz = that.input ? that.input.value : true;
-					that.close(that, zzz);
-				}
-			})
-			d.getElementsByTagName('BODY')[0].appendChild(this.wrap);
+			w.addEventListener('keydown', that.onKeyboard.bind(that));
+			d.getElementsByTagName('BODY')[0].appendChild(that.wrap);
 
 			//移除POP-on类，出现效果
 			setTimeout(function(){
@@ -102,7 +79,7 @@
 			this.option(this.config);
 			this.content.innerHTML = this.txt;
 			this.footer.removeChild(this.closeBtn);
-			this.confirmBtn.addEventListener('click', btn2Fn = function(){that.close(that)});
+			this.confirmBtn.addEventListener('click', that.onClose.bind(that));
 		},
 		//confirm方法
 		confirm: function() {
@@ -110,8 +87,8 @@
 			this.init();
 			this.option(this.config);
 			this.content.innerHTML = this.txt;
-			this.closeBtn.addEventListener('click', btn1Fn = function(){that.close(that,false)});
-			this.confirmBtn.addEventListener('click', btn2Fn = function(){that.close(that,true)});
+			this.closeBtn.addEventListener('click', that.onClose.bind(that, false));
+			this.confirmBtn.addEventListener('click', that.onClose.bind(that, true));
 		},
 		//prompt方法
 		prompt: function() {
@@ -122,24 +99,25 @@
 			this.input = d.createElement('INPUT');
 			this.input.type = 'text';
 			this.content.appendChild(this.input);
-			this.closeBtn.addEventListener('click', btn1Fn = function(){that.close(that,undefined,true)});
-			this.confirmBtn.addEventListener('click', btn2Fn = function(){that.close(that,that.input.value)});
+			this.closeBtn.addEventListener('click', that.onClose.bind(that, undefined, true));
+			this.confirmBtn.addEventListener('click', that.onClose.bind(that, that.input.value));
 		},
-		//关闭弹窗 (that为原对象指针, msg为回调参数, flag为是否不执行回调 )
-		close: function(that, msg, flag) {
+		//关闭弹窗 (msg为回调函数的参数, flag为是否不执行回调 )
+		close: function(msg, flag) {
+			var that = this;
 			d.getElementsByTagName('BODY')[0].removeChild(that.wrap);
 
 			//单例标识关闭
 			unique = undefined;
 
 			//清除绑定事件
-			this.fade.removeEventListener("click", fadeFn, false);
-			this.title.removeEventListener('mousedown', dragFn, false);
-			this.title.removeEventListener('mouseup', drogFn, false);
-			this.wrap.removeEventListener('mousemove', mFn, false);
-			w.removeEventListener("keydown", wFn , false);
-			this.closeBtn.removeEventListener("click", btn1Fn, false);
-			this.confirmBtn.removeEventListener("click", btn2Fn, false);
+			this.fade.removeEventListener("click", that.onFade, false);
+			this.title.removeEventListener('mousedown', that.onDrag, false);
+			this.title.removeEventListener('mouseup', that.onDrop, false);
+			this.wrap.removeEventListener('mousemove', that.onMove, false);
+			w.removeEventListener("keydown", that.onClose , false);
+			this.closeBtn.removeEventListener("click", that.onClose, false);
+			this.confirmBtn.removeEventListener("click", that.onClose, false);
 
 			//是否执行回调
 			if(that.callback && !flag){
@@ -179,10 +157,44 @@
 					}
 			}
 		},
-		onDrag: function(event, that) {
-			if(that.dragFlag){
-				that.model.style.left = (event.pageX - that.startX + that.left) + 'px';
-				that.model.style.top = (event.pageY - that.startY + that.top) + 'px';
+		onClose: function(msg, flag){
+			flag = typeof flag !== 'boolean' ? false : flag;
+			this.close(msg, flag);
+		},
+		//设置拖拽开始状态
+		onDrag: function(event){
+			this.dragFlag = true;
+			this.startX = event.pageX;
+			this.startY = event.pageY;
+			this.left = parseInt(w.getComputedStyle(this.model , null)['left']);
+			this.top = parseInt(w.getComputedStyle(this.model , null)['top']);
+		},
+		//拖拽过程
+		onMove: function(event) {
+			if(this.dragFlag){
+				this.model.style.left = (event.pageX - this.startX + this.left) + 'px';
+				this.model.style.top = (event.pageY - this.startY + this.top) + 'px';
+			}
+		},
+		//结束拖拽
+		onDrop: function(event){
+			this.dragFlag = false;
+		},
+		//遮罩层点击事件
+		onFade: function(){
+			this.close(undefined,true);
+		},
+		//键盘点击事件
+		onKeyboard: function(event){
+			var code = event.keyCode;
+			if(code === 27){
+				event.preventDefault();
+				this.close(undefined,true);
+			}
+			else if(code === 13){
+				event.preventDefault();
+				var zzz = this.input ? this.input.value : true;
+				this.close(zzz);
 			}
 		}
 	}
@@ -208,14 +220,14 @@
 		},
 		//单例模式
 		single: function(txt, config) {
-				if (unique === undefined) {
-					unique = new Layer(txt, config);
-					return unique;
-				}
-				else {
-					return false;
-				}
+			if (unique === undefined) {
+				unique = new Layer(txt, config);
+				return unique;
 			}
+			else {
+				return false;
+			}
+		}
 	}
 
 	window["POP"] = POP;
