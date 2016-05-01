@@ -101,10 +101,11 @@
 			this.input.type = 'text';
 			this.content.appendChild(this.input);
 			this.closeBtn.addEventListener('click', that.onClose.bind(that, undefined, true));
-			this.confirmBtn.addEventListener('click', that.onClose.bind(that, that.input.value));
+			this.confirmBtn.addEventListener('click', that.onClose.bind(that, that.input));
 		},
 		//关闭弹窗 (msg为回调函数的参数, flag为是否不执行回调 )
 		close: function(msg, flag) {
+			if(typeof msg === 'object') msg = msg.value;
 			var that = this;
 			d.getElementsByTagName('BODY')[0].removeChild(that.wrap);
 
